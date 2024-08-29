@@ -60,12 +60,20 @@ pipeline {
     }
 
     post {
-        // Email Notification for Test and Security Scan stages
-        always {
-            mail to: 'developer@example.com',
+        success{
+            mail to: 's224125628@deakin.edu.au',
                  subject: "Pipeline Status: ${currentBuild.currentResult}",
                  body: "Pipeline completed. Please check the logs for details.",
                  attachLog: true
+        }
+            
+        failure{
+            mail to: 's224125628@deakin.edu.au',
+                subject: "FAILURE: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "The pipeline has failed.\nCheck the build log at: ${env.BUILD_URL}"
+        }    
+        always {
+            echo 'This will always run after the build completes'
         }
     }
 }
