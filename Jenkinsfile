@@ -1,14 +1,14 @@
 pipeline {
     agent any
     tools{
-        maven 'Maven 3.x' 
+        maven 'Default' 
     }    
     stages {
         // Stage 1: Build
         stage('Build') {
             steps {
                 script{
-                    def mvnHome = tool name: 'Maven 3.x', type: 'maven'
+                    def mvnHome = tool name: 'Default', type: 'maven'
                 }
                 echo 'Building the project...'
                 sh 'mvn clean package' // Assuming Maven is used for build automation
