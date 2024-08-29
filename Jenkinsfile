@@ -7,6 +7,9 @@ pipeline {
         // Stage 1: Build
         stage('Build') {
             steps {
+                script{
+                    def mvnHome = tool name: 'Maven 3.x', type: 'maven'
+                }
                 echo 'Building the project...'
                 sh 'mvn clean package' // Assuming Maven is used for build automation
             }
