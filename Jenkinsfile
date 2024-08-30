@@ -62,7 +62,7 @@ pipeline {
     post {
         always {
             emailext(
-              subject: "Build # ${BUILD_NUMBER} - ${BUILD_STATUS}",
+              subject: "Build # ${BUILD_NUMBER} - ${currentBuild.currentResult}",
               body: "Check console output at ${BUILD_URL} to view the results.",
               to: 'briantest610@gmail.com',
               attachmentsPattern: 'Attachment.txt'
