@@ -65,7 +65,7 @@ pipeline {
     }
 
     post {
-        success{
+        /*success{
             mail to: 'briantest610@gmail.com',
                  subject: "SUCCESS: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "Pipeline completed. Please check the logs for details at: ${env.BUILD_URL}."
@@ -75,9 +75,12 @@ pipeline {
             mail to: 'briantest610@gmail.com',
                 subject: "FAILURE: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "The pipeline has failed. Check the build log at: ${env.BUILD_URL}"
-        }    
+        } */   
         always {
-            echo 'This will always run after the build completes'
+             mail to: 'briantest610@gmail.com',
+                 subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Please find the attachment below."
+            attachmentsPattern: 'Attachment.txt'
         }
     }
 }
