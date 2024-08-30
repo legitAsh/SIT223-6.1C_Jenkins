@@ -75,7 +75,7 @@ pipeline {
             emailext(
                 to: 'briantest610@gmail.com',
                 subject: "FAILURE: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "The pipeline has failed. Check the build log at: ${env.BUILD_URL}"
+                body: "The pipeline has failed. Check the build log at: ${env.BUILD_URL}",
                 attachmentsPattern: '**/Attachment.txt'
                )
         }   
