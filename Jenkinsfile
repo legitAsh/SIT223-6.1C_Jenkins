@@ -1,17 +1,14 @@
 pipeline {
     agent any
-    tools{
+    tools {
         maven 'Default' 
-    }    
+    }
     stages {
         // Stage 1: Build
         stage('Build') {
             steps {
-                /*script{
-                    def mvnHome = tool name: 'Default', type: 'maven'
-                }*/
                 echo 'Building the project...'
-                sh 'mvn clean package' // Assuming Maven is used for build automation
+                sh 'mvn clean package'
             }
         }
 
@@ -19,15 +16,21 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                sh 'mvn test' // Assuming JUnit or TestNG is used for tests
+                sh 'mvn test'
             }
         }
 
-        // Stage 3: Code Analysis
+        // Stage 3: Code Analysis with Checkstyle
         stage('Code Analysis') {
             steps {
-                echo 'Running code analysis...'
-                sh 'mvn sonar:sonar' // Assuming SonarQube for code analysis
+                echo 'Running code analysis with Checkstyle...'
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                always {
+                    // Archive Checkstyle reports
+                    archiveArtifacts artifacts: '**/target/checkstyle-result.xml', allowEmptyArchive: true
+                }
             }
         }
 
@@ -35,7 +38,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                sh 'dependency-check.sh --project example' // OWASP Dependency-Check tool
+                sh 'dependency-check.sh --project example'
             }
         }
 
@@ -43,7 +46,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
-                sh 'aws ec2 deploy my-app' // Assuming deployment to AWS EC2
+                // sh 'aws ec2 deploy my-app' // Example deployment command
             }
         }
 
@@ -51,7 +54,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
-                sh 'postman run tests' // Postman for API tests on staging
+                // sh 'postman run tests' // Example integration test command
             }
         }
 
@@ -59,13 +62,13 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-                sh 'kubectl apply -f my-app.yaml' // Deploying with Kubernetes
+                // sh 'kubectl apply -f my-app.yaml' // Example deployment command
             }
         }
     }
 
     post {
-        success{
+        success {
             emailext(
                 to: 'briantest610@gmail.com',
                 subject: "SUCCESS: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
@@ -73,22 +76,24 @@ pipeline {
                 attachmentsPattern: '**/Attachment.txt'
             )
         }
-         
-        failure{
+
+        failure {
             emailext(
                 to: 'briantest610@gmail.com',
                 subject: "FAILURE: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "The pipeline has failed. Check the build log at: ${env.BUILD_URL}",
                 attachmentsPattern: '**/Attachment.txt'
-               )
-        }   
+            )
+        }
+
         always {
-            emailext (
+            emailext(
                 to: 'briantest610@gmail.com',
                 subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Pipeline execution details are attached.",
                 attachmentsPattern: '**/Attachment.txt'
-               )
-            }        
-         }
-   }
+            )
+        }
+    }
+}
+
