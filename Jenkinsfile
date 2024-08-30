@@ -65,12 +65,15 @@ pipeline {
     }
 
     post {
-        /*success{
-            mail to: 'briantest610@gmail.com',
-                 subject: "SUCCESS: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Pipeline completed. Please check the logs for details at: ${env.BUILD_URL}."
+        success{
+            emailext(
+                to: 'briantest610@gmail.com',
+                subject: "SUCCESS: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Pipeline completed. Please check the logs for details at: ${env.BUILD_URL}.",
+                attachmentsPattern: '**/Attachment.txt'
+            )
         }
-        */ 
+         
         failure{
             emailext(
                 to: 'briantest610@gmail.com',
