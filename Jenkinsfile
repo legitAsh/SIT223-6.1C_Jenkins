@@ -81,6 +81,6 @@ pipeline {
                 subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Pipeline execution details are attached.",
                 attachmentsPattern: '**/Attachment.txt'
-            }
-        }
-    }
+               }    
+         }
+   }
