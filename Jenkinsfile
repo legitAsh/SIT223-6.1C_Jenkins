@@ -25,13 +25,13 @@ pipeline {
             steps {
                 echo 'Running code analysis with Checkstyle...'
                 sh 'mvn checkstyle:checkstyle'
-                sh 'ls -R target'
+                sh 'ls -R target' // List files to check if checkstyle-result.xml is generated
             }
             post {
                 always {
-                // Archive Checkstyle reports
-                archiveArtifacts artifacts: '**/target/checkstyle-result.xml', allowEmptyArchive: true
-               }
+                    // Archive Checkstyle reports
+                    archiveArtifacts artifacts: '**/target/checkstyle-result.xml', allowEmptyArchive: true
+                }
             }
         }
 
@@ -39,7 +39,9 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                sh '/path/to/dependency-check.sh --project example'
+                sh '/path/to/dependency-check.sh --project example' // Update with correct path
+                // Alternatively, use Maven plugin if available
+                // sh 'mvn dependency-check:check'
             }
         }
 
@@ -97,4 +99,3 @@ pipeline {
         }
     }
 }
-
