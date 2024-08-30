@@ -77,10 +77,16 @@ pipeline {
                 body: "The pipeline has failed. Check the build log at: ${env.BUILD_URL}"
         } */   
         always {
-             mail to: 'briantest610@gmail.com',
-                 subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Please find the attachment below."
-            attachmentsPattern: '**/Attachment.txt'
+            script{
+                def attachmentFile = 'Attachment.txt'
+                emailext (
+                    to: 'briantest610@gmail.com',
+                    subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: "Please find the attachment below."
+                    attachmentsPattern: attachmentFile,
+                    mimeType: 'text/plain'
+                )
+            }
         }
     }
 }
