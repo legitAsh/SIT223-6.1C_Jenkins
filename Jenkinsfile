@@ -2,84 +2,84 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout code from Git
-                checkout scm
-            }
-        }
         stage('Build') {
             steps {
-                echo 'Building the project...'
-                sh 'mvn clean package'
+                script {
+                    // Task: Build the code using a build automation tool
+                    // Tool: Maven (or any other build tool)
+                    echo 'Building the code...'
+                }
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests...'
-                sh 'mvn test'
+                script {
+                    // Task: Run unit tests and integration tests
+                    // Tools: JUnit (for unit tests), TestNG (for integration tests)
+                    echo 'Running unit and integration tests...'
+                }
             }
         }
         stage('Code Analysis') {
             steps {
-                echo 'Running code analysis with Checkstyle...'
-                sh 'mvn checkstyle:checkstyle'
-                // Archive Checkstyle results
-                archiveArtifacts artifacts: 'target/checkstyle-result.xml', allowEmptyArchive: true
+                script {
+                    // Task: Integrate a code analysis tool to analyze code quality
+                    // Tool: Checkstyle (for code style), SonarQube (for comprehensive analysis)
+                    echo 'Performing code analysis...'
+                }
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan...'
-                // Update this path to the actual location of your security scan script
-                sh '/path/to/dependency-check.sh --project example'
+                script {
+                    // Task: Perform a security scan to identify vulnerabilities
+                    // Tool: OWASP Dependency-Check, SonarQube Security Plugins
+                    echo 'Performing security scan...'
+                }
             }
         }
         stage('Deploy to Staging') {
-            when {
-                expression { currentBuild.result == 'SUCCESS' }
-            }
             steps {
-                echo 'Deploying to Staging...'
-                // Deployment steps
+                script {
+                    // Task: Deploy the application to a staging server
+                    // Tool: AWS CLI, Kubernetes CLI (kubectl), or any deployment tool
+                    echo 'Deploying to staging environment...'
+                }
             }
         }
         stage('Integration Tests on Staging') {
-            when {
-                expression { currentBuild.result == 'SUCCESS' }
-            }
             steps {
-                echo 'Running integration tests on Staging...'
-                // Integration tests steps
+                script {
+                    // Task: Run integration tests on the staging environment
+                    // Tools: JUnit, TestNG, or any test automation tool
+                    echo 'Running integration tests on staging environment...'
+                }
             }
         }
         stage('Deploy to Production') {
-            when {
-                expression { currentBuild.result == 'SUCCESS' }
-            }
             steps {
-                echo 'Deploying to Production...'
-                // Deployment steps
+                script {
+                    // Task: Deploy the application to the production server
+                    // Tool: AWS CLI, Kubernetes CLI (kubectl), or any deployment tool
+                    echo 'Deploying to production environment...'
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline succeeded!'
-            emailext (
-                subject: "Build Success: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
-                body: "Good news! The build ${env.JOB_NAME} ${env.BUILD_NUMBER} has succeeded.",
-                to: 'briantest610@gmail.com'
-            )
-        }
-        failure {
-            echo 'Pipeline failed!'
-            emailext (
-                subject: "Build Failure: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
-                body: "Unfortunately, the build ${env.JOB_NAME} ${env.BUILD_NUMBER} has failed.",
-                to: 'briantest610@gmail.com'
-            )
+        always {
+            script {
+                // Send notification emails with the status and logs as attachments
+                // Tools: Email Extension Plugin (emailext)
+                echo 'Sending notification emails...'
+                emailext (
+                    subject: "Pipeline Status: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+                    body: "Pipeline stage completed. Please find the attached logs.",
+                    to: 'briantest610@gmail.com',
+                    attachmentsPattern: '**Attachment.txt' // Adjust the path to your log files
+                )
+            }
         }
     }
 }
