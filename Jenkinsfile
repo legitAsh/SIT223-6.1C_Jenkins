@@ -79,13 +79,13 @@ pipeline {
                 attachmentsPattern: '**/Attachment.txt'
                )
         }   
-      /*  always {
+        always {
             emailext (
                 to: 'briantest610@gmail.com',
                 subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Pipeline execution details are attached.",
-                attachmentsPattern: '/Attachment.txt'
+                attachmentsPattern: '**/Attachment.txt'
                )
-            } */       
+            }        
          }
    }
