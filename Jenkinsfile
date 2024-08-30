@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
     agent any
 
     stages {
@@ -72,6 +72,27 @@ pipeline {
             attachmentsPattern: 'Attachment.txt', // Adjust this if necessary
             attachLog: true
            )
+        }
+    }
+}
+*/
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Test Email') {
+            steps {
+                emailext(
+                    to: 'briantest610@gmail.com',
+                    subject: "Test Email from Jenkins",
+                    body: """\
+This is a test email from Jenkins to check email configuration.
+Check the Jenkins console output for more details.
+""",
+                    attachLog: true
+                )
+            }
         }
     }
 }
