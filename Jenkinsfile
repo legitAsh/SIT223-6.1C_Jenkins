@@ -4,82 +4,73 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Task: Build the code using a build automation tool
-                    // Tool: Maven (or any other build tool)
-                    echo 'Building the code...'
-                }
+                echo 'Building the code...'
+                // Add your build steps here
+                // e.g., sh 'mvn clean package'
             }
         }
+
         stage('Unit and Integration Tests') {
             steps {
-                script {
-                    // Task: Run unit tests and integration tests
-                    // Tools: JUnit (for unit tests), TestNG (for integration tests)
-                    echo 'Running unit and integration tests...'
-                }
+                echo 'Running unit and integration tests...'
+                // Add your test steps here
+                // e.g., sh 'mvn test'
             }
         }
+
         stage('Code Analysis') {
             steps {
-                script {
-                    // Task: Integrate a code analysis tool to analyze code quality
-                    // Tool: Checkstyle (for code style), SonarQube (for comprehensive analysis)
-                    echo 'Performing code analysis...'
-                }
+                echo 'Performing code analysis...'
+                // Add your code analysis steps here
+                // e.g., sh 'mvn checkstyle:checkstyle'
             }
         }
+
         stage('Security Scan') {
             steps {
-                script {
-                    // Task: Perform a security scan to identify vulnerabilities
-                    // Tool: OWASP Dependency-Check, SonarQube Security Plugins
-                    echo 'Performing security scan...'
-                }
+                echo 'Performing security scan...'
+                // Add your security scan steps here
+                // e.g., sh '/path/to/dependency-check.sh --project example'
             }
         }
+
         stage('Deploy to Staging') {
             steps {
-                script {
-                    // Task: Deploy the application to a staging server
-                    // Tool: AWS CLI, Kubernetes CLI (kubectl), or any deployment tool
-                    echo 'Deploying to staging environment...'
-                }
+                echo 'Deploying to staging environment...'
+                // Add your deployment steps here
+                // e.g., sh 'deploy-to-staging.sh'
             }
         }
+
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    // Task: Run integration tests on the staging environment
-                    // Tools: JUnit, TestNG, or any test automation tool
-                    echo 'Running integration tests on staging environment...'
-                }
+                echo 'Running integration tests on staging environment...'
+                // Add your integration tests steps here
+                // e.g., sh 'run-integration-tests.sh'
             }
         }
+
         stage('Deploy to Production') {
             steps {
-                script {
-                    // Task: Deploy the application to the production server
-                    // Tool: AWS CLI, Kubernetes CLI (kubectl), or any deployment tool
-                    echo 'Deploying to production environment...'
-                }
+                echo 'Deploying to production environment...'
+                // Add your production deployment steps here
+                // e.g., sh 'deploy-to-production.sh'
             }
         }
     }
 
     post {
         always {
-            script {
-                // Send notification emails with the status and logs as attachments
-                // Tools: Email Extension Plugin (emailext)
-                echo 'Sending notification emails...'
-                emailext (
-                    subject: "Pipeline Status: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
-                    body: "Pipeline stage completed. Please find the attached logs.",
-                    to: 'briantest610@gmail.com',
-                    attachmentsPattern: '**Attachment.txt' // Adjust the path to your log files
-                )
-            }
+            emailext(
+                to: 'briantest610@gmail.com',
+                subject: "Build ${currentBuild.fullDisplayName}",
+                body: """Build ${currentBuild.fullDisplayName} (${currentBuild.currentResult})
+                attachmentsPattern: '**/Attachment.txt'
+                
+                Check the Jenkins console output for more details:
+                ${env.BUILD_URL}""",
+                attachLog: true
+            )
         }
     }
 }
