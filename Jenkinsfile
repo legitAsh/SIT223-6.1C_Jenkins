@@ -29,9 +29,9 @@ pipeline {
             }
             post {
                 always {
-                    // Archive Checkstyle reports
-                    archiveArtifacts artifacts: '**/target/checkstyle-result.xml', allowEmptyArchive: true
-                }
+                // Archive Checkstyle reports
+                archiveArtifacts artifacts: '**/target/checkstyle-result.xml', allowEmptyArchive: true
+               }
             }
         }
 
