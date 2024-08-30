@@ -27,7 +27,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Running code analysis...'
-                //sh 'mvn sonar:sonar' // Assuming SonarQube for code analysis
+                sh 'mvn sonar:sonar' // Assuming SonarQube for code analysis
             }
         }
 
