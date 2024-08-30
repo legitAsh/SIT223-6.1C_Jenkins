@@ -62,16 +62,11 @@ pipeline {
     post {
         always {
             emailext(
-                to: 'briantest610@gmail.com',
-                subject: "Build ${currentBuild.fullDisplayName}",
-                body: """\
-    Build ${currentBuild.fullDisplayName} (${currentBuild.currentResult})
-
-    Check the Jenkins console output for more details:
-    ${env.BUILD_URL}""",
-            attachmentsPattern: 'Attachment.txt', // Adjust this if necessary
-            attachLog: true
-           )
+              subject: "Build # ${BUILD_NUMBER} - ${BUILD_STATUS}",
+              body: "Check console output at ${BUILD_URL} to view the results.",
+              to: 'briantest610@gmail.com',
+              attachmentsPattern: 'Attachment.txt'
+            )
         }
     }
 }
