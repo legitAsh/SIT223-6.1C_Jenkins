@@ -80,7 +80,7 @@ pipeline {
              mail to: 'briantest610@gmail.com',
                  subject: "Jenkins: Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "Please find the attachment below."
-            attachmentsPattern: 'Attachment.txt'
+            attachmentsPattern: '**/Attachment.txt'
         }
     }
 }
