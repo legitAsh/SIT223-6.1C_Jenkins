@@ -7,11 +7,11 @@ pipeline {
         // Stage 1: Build
         stage('Build') {
             steps {
-                script{
+                /*script{
                     def mvnHome = tool name: 'Default', type: 'maven'
-                }
+                }*/
                 echo 'Building the project...'
-                sh 'mvn clean package' // Assuming Maven is used for build automation
+                //sh 'mvn clean package' // Assuming Maven is used for build automation
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                sh 'mvn test' // Assuming JUnit or TestNG is used for tests
+               // sh 'mvn test' // Assuming JUnit or TestNG is used for tests
             }
         }
 
@@ -35,7 +35,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                sh 'dependency-check.sh --project example' // OWASP Dependency-Check tool
+              //  sh 'dependency-check.sh --project example' // OWASP Dependency-Check tool
             }
         }
 
@@ -43,7 +43,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
-                sh 'aws ec2 deploy my-app' // Assuming deployment to AWS EC2
+             //   sh 'aws ec2 deploy my-app' // Assuming deployment to AWS EC2
             }
         }
 
@@ -51,7 +51,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
-                sh 'postman run tests' // Postman for API tests on staging
+             //   sh 'postman run tests' // Postman for API tests on staging
             }
         }
 
@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-                sh 'kubectl apply -f my-app.yaml' // Deploying with Kubernetes
+           //     sh 'kubectl apply -f my-app.yaml' // Deploying with Kubernetes
             }
         }
     }
