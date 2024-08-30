@@ -25,6 +25,7 @@ pipeline {
             steps {
                 echo 'Running code analysis with Checkstyle...'
                 sh 'mvn checkstyle:checkstyle'
+                sh 'ls -R target'
             }
             post {
                 always {
@@ -38,7 +39,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Performing security scan...'
-                sh 'dependency-check.sh --project example'
+                sh '/path/to/dependency-check.sh --project example'
             }
         }
 
