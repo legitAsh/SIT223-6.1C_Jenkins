@@ -64,13 +64,14 @@ pipeline {
             emailext(
                 to: 'briantest610@gmail.com',
                 subject: "Build ${currentBuild.fullDisplayName}",
-                body: """Build ${currentBuild.fullDisplayName} (${currentBuild.currentResult})
-                attachmentsPattern: '**/Attachment.txt'
-                
-                Check the Jenkins console output for more details:
-                ${env.BUILD_URL}""",
-                attachLog: true
-            )
+                body: """\
+    Build ${currentBuild.fullDisplayName} (${currentBuild.currentResult})
+
+    Check the Jenkins console output for more details:
+    ${env.BUILD_URL}""",
+            attachmentsPattern: 'Attachment.txt', // Adjust this if necessary
+            attachLog: true
+           )
         }
     }
 }
